@@ -8,16 +8,18 @@ def analyze_text(text):
     返回:
         list - 按字符频率降序排列的字符列表
     """
-    # 在此处增加代码
-    # 1. 统计每个字符的频率
-    freq_dict = {}
+    # 步骤1：统计每个字符的出现次数
+    frequency = {}
     for char in text:
-        # 遍历每个字符，统计出现次数
-        freq_dict[char] = freq_dict.get(char, 0) + 1
+        # 逐个字符统计，不存在则初始化为0，存在则+1
+        if char in frequency:
+            frequency[char] += 1
+        else:
+            frequency[char] = 1
     
-    # 2. 按频率降序排序（频率相同则按字符本身排序，可选）
-    # 排序规则：先按频率（-freq_dict[char] 表示降序），再按字符本身
-    sorted_chars = sorted(freq_dict.keys(), key=lambda x: (-freq_dict[x], x))
+    # 步骤2：按频率降序排序（频率相同则按字符本身排序）
+    # 排序依据：先按频率（降序），再按字符（升序）
+    sorted_chars = sorted(frequency, key=lambda c: (-frequency[c], c))
     
     return sorted_chars
 
@@ -37,7 +39,7 @@ if __name__ == "__main__":
             lines.append(line)
         except EOFError:
             break
-    # 合并输入文本
+    # 合并输入文本（保留换行符）
     text = "\n".join(lines)
     if not text.strip():
         print("未输入有效文本！")
